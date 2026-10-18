@@ -5,6 +5,9 @@ export const CHARACTER_SETS = Object.freeze({
     symbols: "!@#$%^&*()-_=+[]{};:,.?/"
 });
 
+const MIN_PASSWORD_LENGTH = 8;
+const MAX_PASSWORD_LENGTH = 64;
+
 function secureRandomIndex(max) {
     if (!globalThis.crypto || typeof globalThis.crypto.getRandomValues !== "function") {
         throw new Error("Este ambiente não oferece geração segura de números aleatórios.");
@@ -22,8 +25,8 @@ function secureRandomIndex(max) {
 }
 
 export function generatePassword(length, selectedSetNames, randomIndex = secureRandomIndex) {
-    if (!Number.isInteger(length) || length < 8 || length > 64) {
-        throw new RangeError("O tamanho da senha deve estar entre 8 e 64 caracteres.");
+    if (!Number.isInteger(length) || length < MIN_PASSWORD_LENGTH || length > MAX_PASSWORD_LENGTH) {
+        throw new RangeError(`O tamanho da senha deve estar entre ${MIN_PASSWORD_LENGTH} e ${MAX_PASSWORD_LENGTH} caracteres.`);
     }
 
     if (!Array.isArray(selectedSetNames) || selectedSetNames.length === 0) {
