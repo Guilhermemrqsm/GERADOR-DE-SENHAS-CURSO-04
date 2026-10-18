@@ -12,7 +12,23 @@ Uma página simples para gerar senhas diretamente no navegador. Você pode escol
 
 ## Como usar
 
-Abra o arquivo `index.html` em um navegador. Clique em **Gerar senha segura** para criar outra senha e no botão ao lado da senha para copiá-la.
+Como o projeto usa módulos JavaScript, execute a página por um servidor local (por exemplo, a extensão Live Server do VS Code) ou publique-a no GitHub Pages. Abrir `index.html` diretamente como arquivo pode impedir o navegador de carregar os módulos.
+
+Clique em **Gerar senha segura** para criar outra senha e no botão ao lado da senha para copiá-la.
+
+## Testes
+
+Os testes automatizados usam o executor nativo do Node.js, sem bibliotecas externas. Com Node.js instalado, execute na pasta do projeto:
+
+```bash
+npm test
+```
+
+## Tecnologias e dependências
+
+- HTML, CSS e JavaScript (ES modules).
+- Node.js para executar os testes.
+- O projeto não usa dependências de terceiros.
 
 ## Publicar no GitHub Pages
 
@@ -31,6 +47,10 @@ A senha é gerada no próprio navegador e não é enviada a um servidor por esta
 ```text
 .
 ├── index.html
+├── script.js
+├── password.js
+├── password.test.js
+├── package.json
 ├── README.md
 └── .gitignore
 ```
