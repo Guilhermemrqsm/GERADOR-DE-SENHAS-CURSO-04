@@ -1,60 +1,105 @@
-# Gerador de senhas
+# Gerador de senhas seguras
 
-Uma página simples para gerar senhas diretamente no navegador. Você pode escolher o tamanho da senha e quais tipos de caracteres incluir.
+Aplicação web estática para criar senhas aleatórias no navegador. A pessoa escolhe o tamanho da senha e quais grupos de caracteres quer incluir.
 
-## Funcionalidades
+## O que a aplicação faz
 
-- Senhas de 8 a 64 caracteres.
-- Letras maiúsculas, letras minúsculas, números e caracteres especiais selecionáveis.
-- Geração aleatória usando a API criptográfica do navegador (`crypto.getRandomValues`).
-- Cópia da senha para a área de transferência.
-- Layout responsivo, sem dependências ou instalação.
+- Gera senhas de 8 a 64 caracteres.
+- Permite incluir letras maiúsculas, letras minúsculas, números e símbolos.
+- Garante pelo menos um caractere de cada grupo escolhido.
+- Usa `crypto.getRandomValues` e rejeição de valores fora do intervalo para selecionar caracteres sem viés de módulo.
+- Copia a senha para a área de transferência quando o navegador permite.
+- Adapta o layout a telas menores.
 
-## Como usar
+## Executar em uma máquina limpa
 
-Como o projeto usa módulos JavaScript, execute a página por um servidor local (por exemplo, a extensão Live Server do VS Code) ou publique-a no GitHub Pages. Abrir `index.html` diretamente como arquivo pode impedir o navegador de carregar os módulos.
+A aplicação não precisa de Python, Node.js, npm, instalação de pacotes ou servidor de aplicação. Ela é feita em HTML, CSS e JavaScript e pode ser publicada como site estático no GitHub Pages.
 
-Clique em **Gerar senha segura** para criar outra senha e no botão ao lado da senha para copiá-la.
+### Abrir localmente
 
-## Testes
+Como o JavaScript usa módulos ES, sirva os arquivos por HTTP em vez de abrir `index.html` diretamente. Com Python 3 instalado, o servidor HTTP que precisamos já vem na biblioteca padrão; não instale pacotes Python.
 
-Os testes automatizados usam o executor nativo do Node.js, sem bibliotecas externas. Com Node.js instalado, execute na pasta do projeto:
+1. Baixe o repositório pelo botão **Code → Download ZIP** no GitHub ou clone-o:
+
+   ```bash
+   git clone https://github.com/Guilhermemrqsm/GERADOR-DE-SENHAS-CURSO-04.git
+   ```
+
+2. Abra o terminal na pasta do projeto.
+3. Inicie o servidor local:
+
+   **Windows:**
+
+   ```powershell
+   py -m http.server 8000
+   ```
+
+   Se o comando `py` não existir, tente `python -m http.server 8000`.
+
+   **macOS ou Linux:**
+
+   ```bash
+   python3 -m http.server 8000
+   ```
+
+4. Abra [http://localhost:8000](http://localhost:8000) no navegador.
+5. Para parar o servidor, volte ao terminal e pressione `Ctrl+C`.
+
+Python serve apenas os arquivos estáticos durante o desenvolvimento; a aplicação e sua lógica continuam sendo JavaScript. Também é possível usar a extensão Live Server do VS Code ou abrir a versão publicada no GitHub Pages.
+
+## Executar os testes
+
+Testes são opcionais para usar o site. Para executá-los, instale uma versão LTS atual do [Node.js](https://nodejs.org/en/download/) (Node.js 22 ou superior) e, na pasta do projeto, rode:
 
 ```bash
 npm test
 ```
 
+Não é necessário executar `npm install`: os testes usam `node:test`, que faz parte do Node.js, e o projeto não possui dependências de terceiros. Os testes cobrem o tamanho permitido, a inclusão dos grupos escolhidos e entradas inválidas.
+
 ## Tecnologias e dependências
 
-- HTML, CSS e JavaScript (ES modules).
-- Node.js para executar os testes.
-- O projeto não usa dependências de terceiros.
+- HTML5, CSS e JavaScript com módulos ES.
+- Web Crypto API do navegador para gerar números aleatórios.
+- Node.js 22 ou superior apenas para executar os testes.
+- Python 3 é opcional e serve apenas como servidor HTTP local; nenhum módulo Python externo é necessário.
+- Nenhuma biblioteca de terceiros é usada pelo site ou pelos testes.
+
+## Como funciona a geração
+
+Para cada grupo selecionado, a função escolhe primeiro um caractere daquele grupo. Depois completa o tamanho solicitado com caracteres dos grupos selecionados e embaralha a senha. A função usa `crypto.getRandomValues`; se a API não estiver disponível, informa que não pode gerar uma senha segura.
+
+## Segurança, privacidade e limitações
+
+- A senha é gerada no navegador e não é enviada a um servidor pelo código deste projeto.
+- O projeto não salva senhas nem mede se uma senha é adequada para um serviço específico.
+- A cópia pode depender das permissões do navegador e do contexto seguro da página. Se falhar, a senha pode ser selecionada e copiada manualmente.
+- Use a aplicação publicada por uma fonte confiável. Não compartilhe a senha gerada em locais públicos.
+
+## Uso de IA generativa
+
+IA generativa foi usada como apoio à implementação, à criação de testes e à revisão da documentação. As alterações foram revistas no projeto e os testes automatizados foram executados localmente.
 
 ## Publicar no GitHub Pages
 
-1. Crie um repositório no GitHub e envie estes arquivos para a branch `main`.
-2. No repositório, acesse **Settings → Pages**.
-3. Em **Build and deployment**, selecione **Deploy from a branch**.
-4. Escolha a branch `main` e a pasta `/ (root)`, depois salve.
-5. Aguarde a publicação e acesse o endereço informado pelo GitHub.
+1. Abra **Settings → Pages** no repositório.
+2. Em **Build and deployment**, escolha **Deploy from a branch**.
+3. Selecione a branch `main` e a pasta `/ (root)`, depois salve.
+4. Aguarde a publicação e acesse o endereço informado pelo GitHub.
 
-## Segurança e privacidade
-
-A senha é gerada no próprio navegador e não é enviada a um servidor por esta página. Evite compartilhar senhas geradas e verifique se está usando uma cópia confiável do projeto. A cópia para a área de transferência pode depender das permissões do navegador.
-
-## Estrutura
+## Estrutura do projeto
 
 ```text
 .
-├── index.html
-├── script.js
-├── password.js
-├── password.test.js
-├── package.json
+├── index.html         # Interface e estilos
+├── script.js          # Eventos da página
+├── password.js        # Regras de geração da senha
+├── password.test.js   # Testes automatizados
+├── package.json       # Comando e requisito dos testes
 ├── README.md
 └── .gitignore
 ```
 
 ## Licença
 
-Nenhuma licença foi definida. Se quiser permitir que outras pessoas usem, modifiquem ou distribuam o projeto, escolha e adicione uma licença ao repositório.
+Este repositório ainda não contém um arquivo de licença. Os termos para uso, modificação e distribuição precisam ser definidos pelo responsável pelo projeto.
