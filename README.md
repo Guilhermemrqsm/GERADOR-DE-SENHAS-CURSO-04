@@ -57,6 +57,8 @@ npm test
 
 Não é necessário executar `npm install`: os testes usam `node:test`, que faz parte do Node.js, e o projeto não possui dependências de terceiros. Os testes cobrem o tamanho permitido, a inclusão dos grupos escolhidos e entradas inválidas.
 
+O GitHub Actions executa essa mesma suíte automaticamente em cada push para `main` e em pull requests direcionados à `main`.
+
 ## Tecnologias e dependências
 
 - HTML5, CSS e JavaScript com módulos ES.
@@ -96,6 +98,7 @@ IA generativa foi usada como apoio à implementação, à criação de testes e 
 ├── password.js        # Regras de geração da senha
 ├── password.test.js   # Testes automatizados
 ├── package.json       # Comando e requisito dos testes
+├── .github/workflows/ # Execução automática dos testes
 ├── README.md
 └── .gitignore
 ```
