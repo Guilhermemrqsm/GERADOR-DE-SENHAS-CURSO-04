@@ -22,8 +22,8 @@ function secureRandomIndex(max) {
 }
 
 export function generatePassword(length, selectedSetNames, randomIndex = secureRandomIndex) {
-    if (!Number.isInteger(length) || length < 1) {
-        throw new RangeError("O tamanho da senha deve ser um número inteiro positivo.");
+    if (!Number.isInteger(length) || length < 8 || length > 64) {
+        throw new RangeError("O tamanho da senha deve estar entre 8 e 64 caracteres.");
     }
 
     if (!Array.isArray(selectedSetNames) || selectedSetNames.length === 0) {
