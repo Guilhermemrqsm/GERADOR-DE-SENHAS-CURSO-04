@@ -100,9 +100,10 @@ IA generativa foi usada como apoio à implementação, à criação de testes e 
 ├── package.json       # Comando e requisito dos testes
 ├── .github/workflows/ # Execução automática dos testes
 ├── README.md
+├── LICENSE
 └── .gitignore
 ```
 
 ## Licença
 
-Este repositório ainda não contém um arquivo de licença. Os termos para uso, modificação e distribuição precisam ser definidos pelo responsável pelo projeto.
+Este projeto usa a licença [MIT](LICENSE). Consulte o arquivo `LICENSE` para ver os termos completos. O texto segue o modelo publicado pela [Open Source Initiative](https://opensource.org/license/mit).
