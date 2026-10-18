@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#101827">
+    <title>Gerador de senhas seguras</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #101827;
+            color: #f1f5f9;
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+            display: grid;
+            place-items: center;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(20, 184, 166, 0.15), transparent 48%),
+                #101827;
+        }
+
+        .generator {
+            width: min(100%, 520px);
+            padding: clamp(24px, 6vw, 40px);
+            border: 1px solid #293548;
+            border-radius: 24px;
+            background: rgba(22, 32, 48, 0.96);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 30px;
+        }
+
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            border-radius: 15px;
+            background: #123c3b;
+            color: #5eead4;
+            font-size: 24px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(23px, 5vw, 29px);
+            letter-spacing: -0.7px;
+        }
+
+        .subtitle {
+            margin: 5px 0 0;
+            color: #9aa8ba;
+            font-size: 14px;
+        }
+
+        .password-box {
+            min-height: 74px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px 12px 18px;
+            border: 1px solid #344257;
+            border-radius: 14px;
+            background: #111a28;
+        }
+
+        #password {
+            width: 100%;
+            min-width: 0;
+            padding: 8px 0;
+            border: 0;
+            outline: 0;
+            background: transparent;
+            color: #f8fafc;
+            font: 600 18px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            letter-spacing: 1px;
+        }
+
+        #password::placeholder {
+            color: #738196;
+            font-weight: 400;
+            letter-spacing: 0;
+        }
+
+        button {
+            border: 0;
+            color: inherit;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .icon-button {
+            flex: 0 0 auto;
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border: 1px solid #344257;
+            border-radius: 11px;
+            background: #1b2738;
+            color: #cbd5e1;
+            font-size: 18px;
+            transition: background 150ms ease, border-color 150ms ease;
+        }
+
+        .icon-button:hover {
+            border-color: #5eead4;
+            background: #243447;
+        }
+
+        .icon-button:focus-visible,
+        .generate-button:focus-visible,
+        input:focus-visible {
+            outline: 3px solid rgba(94, 234, 212, 0.65);
+            outline-offset: 3px;
+        }
+
+        .feedback {
+            min-height: 22px;
+            margin: 9px 2px 22px;
+            color: #5eead4;
+            font-size: 13px;
+        }
+
+        .section-title {
+            margin: 0 0 14px;
+            color: #e2e8f0;
+            font-size: 14px;
+            font-weight: 650;
+        }
+
+        .length-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        #length-value {
+            color: #5eead4;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .range-wrap {
+            margin-bottom: 27px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            margin: 8px 0;
+            accent-color: #2dd4bf;
+            cursor: pointer;
+        }
+
+        .range-limits {
+            display: flex;
+            justify-content: space-between;
+            color: #8492a6;
+            font-size: 12px;
+        }
+
+        .options {
+            display: grid;
+            gap: 11px;
+            margin-bottom: 25px;
+        }
+
+        .option {
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 13px;
+            border: 1px solid #2b394c;
+            border-radius: 12px;
+            background: #182335;
+            color: #dce4ee;
+            font-size: 14px;
+            cursor: pointer;
+            transition: border-color 150ms ease, background 150ms ease;
+        }
+
+        .option:hover {
+            border-color: #50647d;
+            background: #1c2a3d;
+        }
+
+        .option input {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            accent-color: #2dd4bf;
+            cursor: pointer;
+        }
+
+        .option-hint {
+            margin-left: auto;
+            color: #8190a5;
+            font-size: 12px;
+        }
+
+        .generate-button {
+            width: 100%;
+            min-height: 54px;
+            border-radius: 13px;
+            background: #2dd4bf;
+            color: #09201e;
+            font-size: 15px;
+            font-weight: 750;
+            transition: background 150ms ease, transform 150ms ease;
+        }
+
+        .generate-button:hover {
+            transform: translateY(-1px);
+            background: #5eead4;
+        }
+
+        .generate-button:active {
+            transform: translateY(0);
+        }
+
+        .security-note {
+            margin: 18px 0 0;
+            color: #8190a5;
+            font-size: 12px;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        @media (max-width: 420px) {
+            body {
+                padding: 20px 14px;
+            }
+
+            .generator {
+                border-radius: 19px;
+            }
+
+            #password {
+                font-size: 15px;
+                letter-spacing: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="generator">
+        <header class="brand">
+            <div class="brand-icon" aria-hidden="true">🔐</div>
+            <div>
+                <h1>Gerador de senhas</h1>
+                <p class="subtitle">Crie uma senha forte em segundos.</p>
+            </div>
+        </header>
+
+        <div class="password-box">
+            <input id="password" type="text" placeholder="Sua senha aparecerá aqui" readonly aria-label="Senha gerada">
+            <button class="icon-button" id="copy-button" type="button" aria-label="Copiar senha" title="Copiar senha">⧉</button>
+        </div>
+        <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
+
+        <section aria-labelledby="length-title">
+            <div class="length-heading">
+                <h2 class="section-title" id="length-title">Tamanho da senha</h2>
+                <output id="length-value" for="length">16 caracteres</output>
+            </div>
+            <div class="range-wrap">
+                <input id="length" type="range" min="8" max="64" value="16" aria-label="Tamanho da senha">
+                <div class="range-limits" aria-hidden="true"><span>8</span><span>64</span></div>
+            </div>
+        </section>
+
+        <section aria-labelledby="options-title">
+            <h2 class="section-title" id="options-title">Tipos de caracteres</h2>
+            <div class="options">
+                <label class="option">
+                    <input type="checkbox" id="uppercase" checked>
+                    <span>Letras maiúsculas</span>
+                    <span class="option-hint">A–Z</span>
+                </label>
+                <label class="option">
+                    <input type="checkbox" id="lowercase" checked>
+                    <span>Letras minúsculas</span>
+                    <span class="option-hint">a–z</span>
+                </label>
+                <label class="option">
+                    <input type="checkbox" id="numbers" checked>
+                    <span>Números</span>
+                    <span class="option-hint">0–9</span>
+                </label>
+                <label class="option">
+                    <input type="checkbox" id="symbols" checked>
+                    <span>Caracteres especiais</span>
+                    <span class="option-hint">!@#$%</span>
+                </label>
+            </div>
+        </section>
+
+        <button class="generate-button" id="generate-button" type="button">Gerar senha segura</button>
+        <p class="security-note">Sua senha é gerada no próprio navegador e não é enviada para nenhum servidor.</p>
+    </main>
+
+    <script>
+        const characterSets = {
+            uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            lowercase: "abcdefghijklmnopqrstuvwxyz",
+            numbers: "0123456789",
+            symbols: "!@#$%^&*()-_=+[]{};:,.?/"
+        };
+
+        const passwordField = document.querySelector("#password");
+        const lengthSlider = document.querySelector("#length");
+        const lengthValue = document.querySelector("#length-value");
+        const feedback = document.querySelector("#feedback");
+
+        function randomIndex(max) {
+            const range = 0x100000000;
+            const limit = range - (range % max);
+            const value = new Uint32Array(1);
+
+            do {
+                crypto.getRandomValues(value);
+            } while (value[0] >= limit);
+
+            return value[0] % max;
+        }
+
+        function generatePassword() {
+            const selectedSets = Object.entries(characterSets)
+                .filter(([name]) => document.querySelector(`#${name}`).checked)
+                .map(([, characters]) => characters);
+            const length = Number(lengthSlider.value);
+
+            if (selectedSets.length === 0) {
+                passwordField.value = "";
+                feedback.textContent = "Selecione pelo menos um tipo de caractere.";
+                return;
+            }
+
+            if (!window.crypto || typeof window.crypto.getRandomValues !== "function") {
+                passwordField.value = "";
+                feedback.textContent = "Seu navegador não oferece geração segura de números aleatórios.";
+                return;
+            }
+
+            const allCharacters = selectedSets.join("");
+            const password = selectedSets.map((characters) => characters[randomIndex(characters.length)]);
+
+            while (password.length < length) {
+                password.push(allCharacters[randomIndex(allCharacters.length)]);
+            }
+
+            for (let index = password.length - 1; index > 0; index -= 1) {
+                const swapIndex = randomIndex(index + 1);
+                [password[index], password[swapIndex]] = [password[swapIndex], password[index]];
+            }
+
+            passwordField.value = password.join("");
+            feedback.textContent = "Senha gerada com segurança.";
+        }
+
+        lengthSlider.addEventListener("input", () => {
+            lengthValue.value = `${lengthSlider.value} caracteres`;
+        });
+
+        document.querySelector("#generate-button").addEventListener("click", generatePassword);
+
+        document.querySelector("#copy-button").addEventListener("click", async () => {
+            if (!passwordField.value) {
+                feedback.textContent = "Gere uma senha antes de copiar.";
+                return;
+            }
+
+            try {
+                await navigator.clipboard.writeText(passwordField.value);
+                feedback.textContent = "Senha copiada para a área de transferência.";
+            } catch (error) {
+                feedback.textContent = "Não foi possível copiar. Selecione e copie a senha manualmente.";
+            }
+        });
+
+        generatePassword();
+    </script>
+</body>
+</html>
